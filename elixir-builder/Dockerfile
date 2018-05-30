@@ -41,6 +41,12 @@ RUN mkdir -p ${nodejs_dir} \
     && curl -s https://nodejs.org/dist/v${nodejs_version}/node-v${nodejs_version}-linux-x64.tar.gz \
       | tar xzf - --directory=${nodejs_dir} --strip-components=1
 
+# Install Yarn
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
+    && echo "deb http://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
+    && apt-get update \
+    && apt-get -y install yarn
+
 # Install CloudSQL Proxy
 RUN curl -s https://dl.google.com/cloudsql/cloud_sql_proxy.linux.amd64 > /opt/bin/cloud_sql_proxy \
     && chmod a+x /opt/bin/cloud_sql_proxy \
